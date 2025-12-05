@@ -2,12 +2,14 @@
   // コンテナの名前（VS Codeに表示される）
   "name": "勤怠管理アプリ",
 
-  // ベースイメージ: Node.js 20 + TypeScript 対応
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  // Dockerfileを使用してビルド
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
   // Vite開発サーバーのポート（localhost:5173 でアクセス可能に）
   "forwardPorts": [5173],
 
-  // コンテナ作成後に pnpm をインストール
-  "postCreateCommand": "npm install -g pnpm"
+  // コンテナ作成後に mise trust と mise install を実行
+  "postCreateCommand": "mise trust && mise install"
 }

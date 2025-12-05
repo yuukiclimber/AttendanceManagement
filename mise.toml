@@ -1,0 +1,6 @@
+[tools]
+node = "latest"
+pnpm = "latest"
+
+[tasks.client]
+run = ["cd client && pnpm run dev"]
