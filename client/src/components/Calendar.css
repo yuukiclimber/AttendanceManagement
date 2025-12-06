@@ -28,7 +28,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f5f5f5;
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -38,7 +38,7 @@
 
 .calendar-table {
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .calendar-table th,
@@ -47,7 +47,7 @@
   padding: 4px 8px;
   text-align: center;
   vertical-align: top;
-  min-width: 80px;
+  min-width: 60px;
 }
 
 .calendar-table th {
@@ -71,18 +71,18 @@
 }
 
 .cell-hours {
-  font-size: 11px;
+  font-size: 14px;
   color: #333;
 }
 
 .week-total-header {
-  font-size: 11px;
+  font-size: 14px;
   min-width: 60px;
 }
 
 .week-total-cell {
   background-color: #f9f9f9;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .week-total {
@@ -91,5 +91,46 @@
 }
 
 .cumulative-total {
+  color: #666;
+}
+
+.carry-over-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 16px;
+}
+
+.carry-over-label {
+  font-size: 14px;
+  color: #333;
+}
+
+.carry-over-input {
+  width: 50px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: right;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.carry-over-input::-webkit-outer-spin-button,
+.carry-over-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.carry-over-input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.carry-over-unit {
+  margin-left: 4px;
+  font-size: 13px;
   color: #666;
 }

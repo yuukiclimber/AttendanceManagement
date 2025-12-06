@@ -7,6 +7,7 @@ import { ImportExport } from './components/ImportExport';
 import './App.css';
 
 const STORAGE_KEY = 'attendance_records';
+const CARRY_OVER_KEY = 'attendance_carry_over_by_month';
 
 // localStorageからデータを読み込む
 function loadRecords(): AttendanceRecord[] {
@@ -30,14 +31,42 @@ function saveRecords(records: AttendanceRecord[]): void {
   }
 }
 
+// localStorageから月別繰越を読み込む
+function loadCarryOverByMonth(): Record<string, number> {
+  try {
+    const data = localStorage.getItem(CARRY_OVER_KEY);
+    if (data) {
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.error('Failed to load carryOverByMonth from localStorage:', e);
+  }
+  return {};
+}
+
+// localStorageに月別繰越を保存する
+function saveCarryOverByMonth(carryOverByMonth: Record<string, number>): void {
+  try {
+    localStorage.setItem(CARRY_OVER_KEY, JSON.stringify(carryOverByMonth));
+  } catch (e) {
+    console.error('Failed to save carryOverByMonth to localStorage:', e);
+  }
+}
+
 function App() {
   const [records, setRecords] = useState<AttendanceRecord[]>(loadRecords);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [carryOverByMonth, setCarryOverByMonth] = useState<Record<string, number>>(loadCarryOverByMonth);
 
   // recordsが変更されたらlocalStorageに保存
   useEffect(() => {
     saveRecords(records);
   }, [records]);
+
+  // carryOverByMonthが変更されたらlocalStorageに保存
+  useEffect(() => {
+    saveCarryOverByMonth(carryOverByMonth);
+  }, [carryOverByMonth]);
 
   const handleAddRecord = (record: AttendanceRecord) => {
     if (editingIndex !== null) {
@@ -64,8 +93,11 @@ function App() {
     setEditingIndex(null);
   };
 
-  const handleImport = (importedRecords: AttendanceRecord[]) => {
+  const handleImport = (importedRecords: AttendanceRecord[], importedCarryOverByMonth?: Record<string, number>) => {
     setRecords(importedRecords);
+    if (importedCarryOverByMonth) {
+      setCarryOverByMonth(importedCarryOverByMonth);
+    }
   };
 
   return (
@@ -84,9 +116,19 @@ function App() {
         onDelete={handleDelete}
       />
 
-      <Calendar records={records} />
+      <Calendar 
+        records={records} 
+        carryOverByMonth={carryOverByMonth} 
+        onCarryOverChange={(month, value) => {
+          setCarryOverByMonth(prev => ({ ...prev, [month]: value }));
+        }} 
+      />
 
-      <ImportExport records={records} onImport={handleImport} />
+      <ImportExport 
+        records={records} 
+        carryOverByMonth={carryOverByMonth}
+        onImport={handleImport} 
+      />
     </div>
   );
 }

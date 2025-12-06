@@ -4,14 +4,24 @@ import './ImportExport.css';
 
 interface ImportExportProps {
   records: AttendanceRecord[];
-  onImport: (records: AttendanceRecord[]) => void;
+  carryOverByMonth: Record<string, number>;
+  onImport: (records: AttendanceRecord[], carryOverByMonth?: Record<string, number>) => void;
 }
 
-export function ImportExport({ records, onImport }: ImportExportProps) {
+interface ExportData {
+  records: AttendanceRecord[];
+  carryOverByMonth: Record<string, number>;
+}
+
+export function ImportExport({ records, carryOverByMonth, onImport }: ImportExportProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = () => {
-    const json = JSON.stringify(records, null, 2);
+    const exportData: ExportData = {
+      records,
+      carryOverByMonth
+    };
+    const json = JSON.stringify(exportData, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
@@ -34,22 +44,37 @@ export function ImportExport({ records, onImport }: ImportExportProps) {
         const json = event.target?.result as string;
         const data = JSON.parse(json);
         
-        // 配列かどうかチェック
-        if (!Array.isArray(data)) {
+        // 新形式（records + carryOverByMonth）か旧形式（配列のみ）かチェック
+        let importedRecords: AttendanceRecord[];
+        let importedCarryOver: Record<string, number> | undefined;
+
+        if (Array.isArray(data)) {
+          // 旧形式：配列のみ
+          importedRecords = data.map((item: Record<string, unknown>) => ({
+            date: String(item.date || ''),
+            start: String(item.start || ''),
+            end: String(item.end || ''),
+            hours: String(item.hours || '0'),
+            memo: String(item.memo || ''),
+          }));
+        } else if (data && typeof data === 'object' && Array.isArray(data.records)) {
+          // 新形式：オブジェクト
+          importedRecords = data.records.map((item: Record<string, unknown>) => ({
+            date: String(item.date || ''),
+            start: String(item.start || ''),
+            end: String(item.end || ''),
+            hours: String(item.hours || '0'),
+            memo: String(item.memo || ''),
+          }));
+          if (data.carryOverByMonth && typeof data.carryOverByMonth === 'object') {
+            importedCarryOver = data.carryOverByMonth as Record<string, number>;
+          }
+        } else {
           alert('無効なファイル形式です');
           return;
         }
 
-        // データの形式を検証・変換
-        const importedRecords: AttendanceRecord[] = data.map((item: Record<string, unknown>) => ({
-          date: String(item.date || ''),
-          start: String(item.start || ''),
-          end: String(item.end || ''),
-          hours: String(item.hours || '0'),
-          memo: String(item.memo || ''),
-        }));
-
-        onImport(importedRecords);
+        onImport(importedRecords, importedCarryOver);
         alert(`${importedRecords.length}件のデータをインポートしました`);
       } catch {
         alert('ファイルの読み込みに失敗しました');
