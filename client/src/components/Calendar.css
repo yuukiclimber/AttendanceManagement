@@ -1,0 +1,95 @@
+.calendar {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.calendar-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background-color: #e5e5e5;
+}
+
+.calendar-table {
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.calendar-table th,
+.calendar-table td {
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  text-align: center;
+  vertical-align: top;
+  min-width: 80px;
+}
+
+.calendar-table th {
+  background-color: #f0f0f0;
+  font-weight: normal;
+  padding: 6px 8px;
+}
+
+.calendar-cell {
+  height: 50px;
+}
+
+.other-month {
+  color: #aaa;
+  background-color: #fafafa;
+}
+
+.cell-date {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.cell-hours {
+  font-size: 11px;
+  color: #333;
+}
+
+.week-total-header {
+  font-size: 11px;
+  min-width: 60px;
+}
+
+.week-total-cell {
+  background-color: #f9f9f9;
+  font-size: 11px;
+}
+
+.week-total {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.cumulative-total {
+  color: #666;
+}
