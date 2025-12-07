@@ -4,3 +4,6 @@ pnpm = "latest"
 
 [tasks.client]
 run = ["cd client && pnpm run dev"]
+
+[tasks.build]
+run = ["cd client && pnpm run build"]

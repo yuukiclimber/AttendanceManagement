@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: '0.0.0.0', // devcontainer外からアクセス可能にする
-  },
+  base: '/attendance-management/', // ★リポジトリ名に変更
+  server: { host: '0.0.0.0' },
 })

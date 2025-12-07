@@ -63,9 +63,5 @@
 }
 
 .btn-delete {
-  color: #666;
-}
-
-.btn-delete:hover {
-  background-color: #ffeeee;
+  color: #333;
 }
