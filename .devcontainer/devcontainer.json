@@ -1,0 +1,15 @@
+{
+  // コンテナの名前（VS Codeに表示される）
+  "name": "勤怠管理アプリ",
+
+  // Dockerfileを使用してビルド
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  // Vite開発サーバーのポート（localhost:5173 でアクセス可能に）
+  "forwardPorts": [5173],
+
+  // コンテナ作成後に mise trust と mise install を実行
+  "postCreateCommand": "mise trust && mise install"
+}
