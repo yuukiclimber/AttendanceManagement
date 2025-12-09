@@ -7,3 +7,6 @@ run = ["cd client && pnpm run dev"]
 
 [tasks.build]
 run = ["cd client && pnpm run build"]
+
+[tasks.deploy]
+run = ["cd client && pnpm run deploy"]
