@@ -38,7 +38,7 @@
 
 .calendar-table {
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .calendar-table th,
@@ -71,18 +71,18 @@
 }
 
 .cell-hours {
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
 }
 
 .week-total-header {
-  font-size: 14px;
+  font-size: 16px;
   min-width: 60px;
 }
 
 .week-total-cell {
   background-color: #f9f9f9;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .week-total {

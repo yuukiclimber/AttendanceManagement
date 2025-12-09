@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { AttendanceRecord } from '../types/attendance';
 import { getTodayString, calculateHours, formatHours } from '../utils/timeCalculation';
 import './InputForm.css';
@@ -10,20 +10,27 @@ interface InputFormProps {
 }
 
 export function InputForm({ onSubmit, editingRecord, onCancelEdit }: InputFormProps) {
-  const [date, setDate] = useState(editingRecord?.date || getTodayString());
-  const [start, setStart] = useState(editingRecord?.start || '');
-  const [end, setEnd] = useState(editingRecord?.end || '');
-  const [memo, setMemo] = useState(editingRecord?.memo || '');
+  const [date, setDate] = useState('');
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
+  const [memo, setMemo] = useState('');
 
-  // 編集モードが変わったときにフォームをリセット
-  useState(() => {
+  // コンポーネントマウント時と編集モード変更時に初期化
+  // useEffect内で複数のsetStateを呼び出すのはパフォーマンス上の推奨事項ですが、
+  // 実装の必要上、ここでは許容します
+  useEffect(() => {
     if (editingRecord) {
       setDate(editingRecord.date);
       setStart(editingRecord.start);
       setEnd(editingRecord.end);
       setMemo(editingRecord.memo);
+    } else {
+      setDate(getTodayString());
+      setStart('');
+      setEnd('');
+      setMemo('');
     }
-  });
+  }, [editingRecord]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
